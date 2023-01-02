@@ -35,6 +35,8 @@
 #include "led.h"
 
 #include "kalman_filter.h"
+#include "state_machine.h"
+#include "imu_math_helper.h"
 
 #define DT_SECONDS 0.25
 
@@ -102,6 +104,35 @@ void print_matrix(arm_matrix_instance_f32 *A, const char *name) {
 	}
 
 	trace_printf("]\n");
+}
+
+State boosterState;
+State sustainerState;
+
+void boosterInit() {
+	trace_printf("Entered booster state\n");
+}
+
+State *boosterExecute() {
+	trace_printf("Execute booster state\n");
+	return &sustainerState;
+}
+
+void boosterFinish() {
+	trace_printf("Exit booster state\n");
+}
+
+void sustainerInit() {
+	trace_printf("Entered sustainer state\n");
+}
+
+State *sustainerExecute() {
+	trace_printf("Execute sustainer state\n");
+	return &sustainerState;
+}
+
+void sustainerFinish() {
+
 }
 
 int
@@ -182,6 +213,35 @@ main(int argc, char* argv[])
 	print_matrix(&kf.xHat, "xHat");
 	print_matrix(&kf.P, "P");
 	trace_printf("Step 2 correct status: %d\n", status);
+
+	float32_t localToWorld_f32[9] = {0};
+	float32_t A_f32[3] = { 0.59, 9.15, -3.47 };
+
+	arm_matrix_instance_f32 localToWorld;
+
+	arm_mat_init_f32(&localToWorld, 3, 3, localToWorld_f32);
+
+	calibrate_imu(A_f32, &localToWorld);
+
+	print_matrix(&localToWorld, "Local to World");
+
+	boosterState.name = "Booster";
+	boosterState.initPtr = &boosterInit;
+	boosterState.executePtr = &boosterExecute;
+	boosterState.finishPtr = &boosterFinish;
+
+	sustainerState.name = "Sustainer";
+	sustainerState.initPtr = &sustainerInit;
+	sustainerState.executePtr = &sustainerExecute;
+	sustainerState.finishPtr = &sustainerFinish;
+
+	StateMachine sm;
+
+	init_state_machine(&sm, &boosterState);
+
+	step_state_machine(&sm);
+	step_state_machine(&sm);
+	step_state_machine(&sm);
 
 	while (1) { }
 }
