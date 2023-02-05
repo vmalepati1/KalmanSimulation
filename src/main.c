@@ -263,6 +263,11 @@ main(int argc, char* argv[])
 	trace_printf("%f\n", get_earliest_datapoint_rolling_window(&rw));
 	trace_printf("%f\n", get_latest_datapoint_rolling_window(&rw));
 
+	add_data_point_rolling_window(&rw, 7.0);
+
+	trace_printf("%f\n", get_earliest_datapoint_rolling_window(&rw));
+	trace_printf("%f\n", get_latest_datapoint_rolling_window(&rw));
+
 	while (1) { }
 }
 
