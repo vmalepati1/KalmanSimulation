@@ -9,6 +9,7 @@ C_SRCS += \
 ../src/kalman_filter.c \
 ../src/led.c \
 ../src/main.c \
+../src/rolling_window.c \
 ../src/state_machine.c \
 ../src/stm32f4xx_hal_msp.c \
 ../src/timer.c \
@@ -20,6 +21,7 @@ OBJS += \
 ./src/kalman_filter.o \
 ./src/led.o \
 ./src/main.o \
+./src/rolling_window.o \
 ./src/state_machine.o \
 ./src/stm32f4xx_hal_msp.o \
 ./src/timer.o \
@@ -31,6 +33,7 @@ C_DEPS += \
 ./src/kalman_filter.d \
 ./src/led.d \
 ./src/main.d \
+./src/rolling_window.d \
 ./src/state_machine.d \
 ./src/stm32f4xx_hal_msp.d \
 ./src/timer.d \

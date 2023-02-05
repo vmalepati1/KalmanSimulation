@@ -77,8 +77,9 @@ src/main.o: ../src/main.c ../system/include/diag/trace.h \
  ../system/include/stm32f4-hal/stm32f4xx_hal_dfsdm.h \
  ../system/include/stm32f4-hal/stm32f4xx_hal_lptim.h \
  ../system/include/stm32f4-hal/stm32f4xx_hal_mmc.h ../include/led.h \
- ../src/kalman_filter.h ../system/include/cmsis/arm_math.h \
- ../src/state_machine.h ../src/imu_math_helper.h
+ ../include/kalman_filter.h ../system/include/cmsis/arm_math.h \
+ ../include/state_machine.h ../include/imu_math_helper.h \
+ ../include/rolling_window.h
 ../system/include/diag/trace.h:
 ../include/timer.h:
 ../system/include/cmsis/cmsis_device.h:
@@ -162,7 +163,8 @@ src/main.o: ../src/main.c ../system/include/diag/trace.h \
 ../system/include/stm32f4-hal/stm32f4xx_hal_lptim.h:
 ../system/include/stm32f4-hal/stm32f4xx_hal_mmc.h:
 ../include/led.h:
-../src/kalman_filter.h:
+../include/kalman_filter.h:
 ../system/include/cmsis/arm_math.h:
-../src/state_machine.h:
-../src/imu_math_helper.h:
+../include/state_machine.h:
+../include/imu_math_helper.h:
+../include/rolling_window.h:

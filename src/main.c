@@ -37,6 +37,7 @@
 #include "kalman_filter.h"
 #include "state_machine.h"
 #include "imu_math_helper.h"
+#include "rolling_window.h"
 
 #define DT_SECONDS 0.25
 
@@ -242,6 +243,25 @@ main(int argc, char* argv[])
 	step_state_machine(&sm);
 	step_state_machine(&sm);
 	step_state_machine(&sm);
+
+	double backing_array[5] = { 0.0, 0.0, 0.0, 0.0, 0.0 };
+	RollingWindow rw;
+
+	init_rolling_window(&rw, backing_array, 5);
+
+	add_data_point_rolling_window(&rw, 1.0);
+	add_data_point_rolling_window(&rw, 2.0);
+	add_data_point_rolling_window(&rw, 3.0);
+	add_data_point_rolling_window(&rw, 4.0);
+	add_data_point_rolling_window(&rw, 5.0);
+
+	trace_printf("%f\n", get_earliest_datapoint_rolling_window(&rw));
+	trace_printf("%f\n", get_latest_datapoint_rolling_window(&rw));
+
+	add_data_point_rolling_window(&rw, 6.0);
+
+	trace_printf("%f\n", get_earliest_datapoint_rolling_window(&rw));
+	trace_printf("%f\n", get_latest_datapoint_rolling_window(&rw));
 
 	while (1) { }
 }
